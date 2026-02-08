@@ -1,128 +1,117 @@
-# House Price Prediction Model using LightGBM
+# House Price Prediction
 
-This project implements a machine learning model to predict house prices using various housing features. The model uses LightGBM regression and includes comprehensive data preprocessing, analysis, and evaluation steps.
-
-## Features
-* Data preprocessing and cleaning
-* Exploratory Data Analysis (EDA)
-* Feature engineering and selection
-* Model training and evaluation
-* Visualization of results
-* Feature importance analysis
+Machine learning regression model for predicting house prices using LightGBM.
 
 ## Dataset
-The project uses the house price dataset with the following key features:
-* SalePrice (Target variable)
-* LotArea
-* YearBuilt
-* OverallQual
-* GarageArea
-* TotalBsmtSF
-* GrLivArea
-* FullBath
-* And many other housing characteristics
 
-## Requirements
-```
-numpy
-pandas
-seaborn
-matplotlib
-scikit-learn
-lightgbm
-```
+Training dataset contains 1460 observations with 80 features including:
+- `SalePrice` - Target variable
+- `OverallQual` - Overall material and finish quality
+- `GrLivArea` - Above grade living area
+- `GarageArea` - Garage size
+- `TotalBsmtSF` - Basement area
+- `YearBuilt` - Construction year
+- Additional features related to house characteristics, location, and condition
 
 ## Project Structure
-The project follows these main steps:
 
-1. **Data Loading and Initial Exploration**
-   * Reading the dataset
-   * Basic data overview
-   * Memory usage analysis
-   * Missing value detection
-   * Duplicate value check
-
-2. **Data Preprocessing**
-   * Handling missing values
-   * Outlier detection and treatment
-   * Categorical variable encoding
-   * Feature scaling using StandardScaler
-   * Log transformation of target variable
-
-3. **Exploratory Data Analysis**
-   * Statistical summaries
-   * Correlation analysis
-   * Distribution analysis
-   * Target variable analysis
-   * Feature relationship studies
-
-4. **Model Building**
-   * Train-test split (80-20)
-   * LightGBM implementation
-   * Model training and prediction
-   * Feature selection
-
-5. **Model Evaluation**
-   * R-squared Score
-   * Root Mean Squared Error (RMSE)
-   * Mean Absolute Error (MAE)
-   * Feature importance visualization
-
-## Key Functions
-* `check_df()`: Provides comprehensive dataframe information
-* `grab_col_names()`: Categorizes variables based on their types
-* `num_summary()`: Generates numerical summaries with optional plotting
-* `missing_values_table()`: Analyzes missing values
-* `rare_analyser()`: Analyzes rare categories in categorical variables
-* `high_correlated_cols()`: Identifies highly correlated features
-* `plot_importance()`: Visualizes feature importance
-
-## Installation
-1. Clone the repository:
-```bash
-git clone [your-repository-url]
+```
+House-Price-Prediction/
+├── src/
+│   ├── __init__.py
+│   ├── config.py              # Configuration and constants
+│   ├── data_loader.py         # Data loading and inspection
+│   ├── preprocessing.py       # Missing values, outliers, encoding
+│   ├── feature_engineering.py # Feature analysis and correlation
+│   ├── visualization.py       # Plotting functions
+│   └── model.py              # Model training and evaluation
+├── main.py                    # Main execution script
+├── requirements.txt
+├── HousePrice_train.csv
+└── README.md
 ```
 
-2. Install required packages:
+## Installation
+
 ```bash
-pip install numpy pandas seaborn matplotlib scikit-learn lightgbm
+git clone https://github.com/yourusername/House-Price-Prediction.git
+cd House-Price-Prediction
+pip install -r requirements.txt
 ```
 
 ## Usage
-1. Ensure your data file is in the correct location
-2. Update the file path in the code:
-```python
-df = pd.read_csv("path_to_your_data/HousePrice_train.csv")
+
+```bash
+python main.py
 ```
 
-3. Run the script:
-```python
-python house_price_prediction.py
-```
+## Pipeline
 
-## Model Performance
-The LightGBM model provides:
-* R-squared Score for regression accuracy
-* RMSE and MAE metrics
-* Visual representation of feature importance
-* Detailed prediction analysis
+### 1. Data Loading
+- CSV import with pandas
+- Initial inspection (shape, types, memory, missing values, duplicates)
+- Column categorization (numerical, categorical, cardinality)
 
-## Data Preprocessing Steps
-1. **Missing Value Treatment**
-   * Filling missing values based on domain knowledge
-   * Using median/mode imputation where appropriate
-   * Creating new categories for missing values in categorical variables
+### 2. Preprocessing
+- Missing value handling:
+  - Domain-specific fills (e.g., "No" for absent features like pool/fence)
+  - Mode imputation for categorical variables
+  - Median imputation for numerical variables
+- Outlier treatment using IQR method (10th-90th percentile)
+- Rare category encoding (threshold: 1%)
 
-2. **Feature Engineering**
-   * Handling rare categories
-   * Binary encoding for categorical variables
-   * One-hot encoding for nominal variables
-   * Scaling numerical features
+### 3. Feature Engineering
+- Correlation analysis with 0.70 threshold
+- Feature selection based on target correlation
+- Dropping redundant columns
 
-3. **Outlier Treatment**
-   * IQR method for outlier detection
-   * Capping outliers at determined thresholds
-   * Special handling for price outliers
+### 4. Encoding
+- Label encoding for binary categorical variables
+- One-hot encoding for multi-class categorical variables
 
-## Contributing
-Feel free to fork this repository and submit pull requests. For major changes, please open an issue first to discuss what you would like to change.
+### 5. Model Training
+- Train/test split: 80/20
+- Log transformation of target variable
+- StandardScaler normalization
+- LightGBM regression with default parameters
+
+### 6. Evaluation
+- Mean Squared Error (MSE)
+- Root Mean Squared Error (RMSE)
+- Mean Absolute Error (MAE)
+- R² Score
+- Feature importance visualization
+
+## Key Functions
+
+| Module | Function | Purpose |
+|--------|----------|---------|
+| `data_loader` | `check_df()` | Dataset overview |
+| `data_loader` | `grab_col_names()` | Column type identification |
+| `preprocessing` | `quick_missing_imp()` | Missing value imputation |
+| `preprocessing` | `replace_with_thresholds()` | Outlier capping |
+| `preprocessing` | `rare_encoder()` | Rare category grouping |
+| `feature_engineering` | `high_correlated_cols()` | Correlation detection |
+| `visualization` | `plot_importance()` | Feature importance chart |
+| `model` | `train_model()` | LightGBM training |
+| `model` | `evaluate_model()` | Metric calculation |
+
+## Configuration
+
+Edit `src/config.py` to modify:
+- Random state
+- Test size ratio
+- Quantile thresholds for outliers
+- Correlation threshold
+- Rare category percentage
+- Columns to drop
+
+## Dependencies
+
+- Python 3.7+
+- numpy
+- pandas
+- seaborn
+- matplotlib
+- scikit-learn
+- lightgbm
