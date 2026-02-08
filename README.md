@@ -24,7 +24,7 @@ House-Price-Prediction/
 │   ├── preprocessing.py       # Missing values, outliers, encoding
 │   ├── feature_engineering.py # Feature analysis and correlation
 │   ├── visualization.py       # Plotting functions
-│   └── model.py              # Model training and evaluation
+│   └── model.py               # Model training and evaluation
 ├── main.py                    # Main execution script
 ├── requirements.txt
 ├── HousePrice_train.csv
