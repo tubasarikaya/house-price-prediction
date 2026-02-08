@@ -34,8 +34,6 @@ House-Price-Prediction/
 ## Installation
 
 ```bash
-git clone https://github.com/yourusername/House-Price-Prediction.git
-cd House-Price-Prediction
 pip install -r requirements.txt
 ```
 
